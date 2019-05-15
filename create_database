@@ -1,0 +1,31 @@
+CREATE DATABASE vis_a_vis
+CHARACTER SET utf8
+COLLATE utf8_general_ci;
+
+USE vis1;
+
+CREATE TABLE firms (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,    
+    PRIMARY KEY (id)
+)  ENGINE=INNODB;
+
+
+INSERT INTO firms(name)
+VALUES 
+   ('Sony'),
+   ('Panasonic'),   
+   ('Samsung');
+
+CREATE TABLE phones (
+    phone_id INT AUTO_INCREMENT,
+    firm_id INT(2) NOT NULL,
+    phone VARCHAR(20) NOT NULL,      
+    PRIMARY KEY (phone_id)
+)  ENGINE=INNODB;
+
+INSERT INTO phones(firm_id, phone)
+VALUES 
+   (1, '332-55-56'),
+   (1, '332-50-01'),   
+   (2, '256-39-11');

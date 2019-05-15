@@ -1,0 +1,62 @@
+Написать SQL-запрос, возвращающий название фирмы и ее телефон. В результате
+должны быть представлены все фирмы по одному разу. Если у фирмы нет телефона,
+нужно вернуть пробел или прочерк. Если у фирмы несколько телефонов, нужно
+вернуть любой из них.
+
+SELECT f.name, IFNULL(p.phone,'-') AS phone 
+FROM firms AS f
+LEFT JOIN phones AS p ON f.id = p.firm_id 
+GROUP BY f.name 
+ORDER BY p.phone DESC;
+
+//=========================
+
+a) Вернуть все фирмы, не имеющие телефонов.
+
+SELECT f.name 
+FROM firms AS f
+LEFT JOIN phones AS p ON f.id = p.firm_id 
+GROUP BY f.name 
+HAVING COUNT(p.phone) IS NULL;
+
+//=========================
+
+b) Вернуть все фирмы, имеющие не менее 2-х телефонов.
+
+SELECT f.name 
+FROM firms AS f
+LEFT JOIN phones AS p ON f.id = p.firm_id 
+GROUP BY f.name 
+HAVING COUNT(p.phone) >= 2;
+
+//==========================
+
+c) Вернуть все фирмы, имеюшие менее 2-х телефонов.
+
+Если исходить из того, что 0 - это вообще нет телефона:
+
+SELECT f.name 
+FROM firms AS f
+LEFT JOIN phones AS p ON f.id = p.firm_id 
+GROUP BY f.name 
+HAVING COUNT(p.phone) = 1;
+
+или в любом случае меньше двух телефонов
+
+SELECT f.name 
+FROM firms AS f
+LEFT JOIN phones AS p ON f.id = p.firm_id 
+GROUP BY f.name 
+HAVING COUNT(p.phone) < 2;
+
+//============================
+
+d) Вернуть фирму, имеющую максимальное кол-во телефонов
+
+SELECT f.name 
+FROM firms AS f 
+LEFT JOIN phones AS p 
+ON f.id = p.firm_id 
+GROUP BY f.name 
+ORDER BY COUNT(p.phone) DESC
+LIMIT 1
